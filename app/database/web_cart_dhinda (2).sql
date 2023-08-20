@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 20 Agu 2023 pada 20.43
+-- Waktu pembuatan: 20 Agu 2023 pada 22.45
 -- Versi server: 8.0.29
 -- Versi PHP: 8.2.5
 
@@ -41,7 +41,8 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `qty`, `id_product_type`, `id_user`, `created_at`, `updated_at`) VALUES
-(39, 1, 12, 1, '2023-08-20 12:57:53', '2023-08-20 12:57:53');
+(39, 1, 12, 1, '2023-08-20 12:57:53', '2023-08-20 12:57:53'),
+(41, 1, 13, 6, '2023-08-20 15:40:47', '2023-08-20 15:40:47');
 
 -- --------------------------------------------------------
 
@@ -350,8 +351,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'testuser', 'testuser@gmail.com', NULL, '$2y$10$qM.Pc6scMM2qgQJqiTyiNOEOtADdUWG.5MHfBzB.odmF5KffQaA3W', NULL, '2023-07-18 06:41:02', '2023-07-18 06:41:02'),
-(2, 'usera', 'user@user.com', NULL, '$2y$10$rlKrXZdrmXIp5FYlYGshsOLgfpa4Oq1DA6XxpAGucHAEbeIUTourq', NULL, '2023-08-20 07:46:02', '2023-08-20 07:46:02'),
-(3, 'userb', 'userb@user.com', NULL, '$2y$10$VKJx2uKhIiMI/f8ihHkGZOyFxsbEEQh1sHpEufgXR0Bd.APC7lpCm', NULL, '2023-08-20 07:47:48', '2023-08-20 07:47:48');
+(6, 'userr', 'userr@user.com', NULL, '$2y$10$s/PoLRRpFn4vBep00ITPFuNp/QuSTXN6dk.RP1Y.8XKiM2eMvdYO.', NULL, '2023-08-20 15:22:02', '2023-08-20 15:22:02');
 
 -- --------------------------------------------------------
 
@@ -375,7 +375,8 @@ CREATE TABLE `user_detail` (
 --
 
 INSERT INTO `user_detail` (`id`, `name`, `address`, `phone`, `status`, `id_user`, `created_at`, `updated_at`) VALUES
-(1, 'Stephanie Chan', 'Jl. Anggur No.8 RT 2/ RW 1 Kel.Aur Kuning, Kec.Aur Birugo Tigo Baleh, Kota Bukittinggi, Provinsi Sumatera Barat', '085555895555', 'utama', 1, NULL, NULL);
+(1, 'Stephanie Chan', 'Jl. Anggur No.8 RT 2/ RW 1 Kel.Aur Kuning, Kec.Aur Birugo Tigo Baleh, Kota Bukittinggi, Provinsi Sumatera Barat', '085555895555', 'utama', 1, NULL, NULL),
+(2, 'Yuyuk', 'Jl.Durian Runtuh, RT 6/ RW 3, Kabupaten Anggur Muda', '08555555', 'utama', 6, '2023-08-20 15:32:58', '2023-08-20 15:32:58');
 
 -- --------------------------------------------------------
 
@@ -415,7 +416,8 @@ INSERT INTO `voucher` (`id`, `voucher_code`, `date`, `discount`, `status`, `crea
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_product_type` (`id_product_type`,`id_user`);
+  ADD UNIQUE KEY `id_product_type` (`id_product_type`,`id_user`),
+  ADD KEY `cart_id_user_user_id` (`id_user`);
 
 --
 -- Indeks untuk tabel `failed_jobs`
@@ -434,7 +436,8 @@ ALTER TABLE `migrations`
 -- Indeks untuk tabel `order`
 --
 ALTER TABLE `order`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id_user_user_id` (`id_user`);
 
 --
 -- Indeks untuk tabel `order_detail`
@@ -520,7 +523,7 @@ ALTER TABLE `voucher`
 -- AUTO_INCREMENT untuk tabel `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -580,13 +583,13 @@ ALTER TABLE `product_type`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_detail`
 --
 ALTER TABLE `user_detail`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `voucher`
@@ -602,7 +605,14 @@ ALTER TABLE `voucher`
 -- Ketidakleluasaan untuk tabel `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_id_product_type_foreign` FOREIGN KEY (`id_product_type`) REFERENCES `product_type` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `cart_id_product_type_foreign` FOREIGN KEY (`id_product_type`) REFERENCES `product_type` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `cart_id_user_user_id` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ketidakleluasaan untuk tabel `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `order_id_user_user_id` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ketidakleluasaan untuk tabel `order_detail`
