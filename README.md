@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-##Account & Database
+## Account & Database
 <p>username = testuser</p>
 <p>password = user123</p>
 
