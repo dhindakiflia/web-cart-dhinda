@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 25 Jul 2023 pada 05.52
+-- Waktu pembuatan: 20 Agu 2023 pada 20.43
 -- Versi server: 8.0.29
 -- Versi PHP: 8.2.5
 
@@ -35,6 +35,13 @@ CREATE TABLE `cart` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `cart`
+--
+
+INSERT INTO `cart` (`id`, `qty`, `id_product_type`, `id_user`, `created_at`, `updated_at`) VALUES
+(39, 1, 12, 1, '2023-08-20 12:57:53', '2023-08-20 12:57:53');
 
 -- --------------------------------------------------------
 
@@ -106,10 +113,12 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id`, `order_date`, `order_time`, `discount`, `total`, `status`, `id_user`, `created_at`, `updated_at`) VALUES
-(23, '2023-07-25 10:03:00', '10:03:34', 10000, 280000, 'closed', 1, '2023-07-24 15:03:38', '2023-07-24 16:50:12'),
-(24, '2023-07-24 10:13:00', '10:13:40', 10000, 135000, 'closed', 1, '2023-07-24 15:13:45', '2023-07-24 16:50:12'),
-(25, '2023-07-25 00:00:00', '05:20:10', 10000, 278000, 'closed', 1, '2023-07-24 22:20:14', '2023-07-24 22:20:16'),
-(27, '2023-07-25 05:49:12', '05:49:12', 10000, 154500, 'open', 1, '2023-07-24 22:49:19', '2023-07-24 22:49:19');
+(23, '2023-07-25 10:03:00', '10:03:34', 10000, 280000, 'open', 1, '2023-07-24 15:03:38', '2023-08-20 13:11:48'),
+(24, '2023-07-24 10:13:00', '10:13:40', 10000, 135000, 'open', 1, '2023-07-24 15:13:45', '2023-08-20 13:12:09'),
+(27, '2023-07-25 05:49:12', '05:49:12', 10000, 154500, 'open', 1, '2023-07-24 22:49:19', '2023-08-20 13:12:15'),
+(28, '2023-08-20 07:47:04', '07:47:04', 10000, 280000, 'open', 1, '2023-08-20 00:47:22', '2023-08-20 13:12:25'),
+(29, '2023-08-20 06:28:42', '06:28:42', 10000, 143000, 'open', 1, '2023-08-20 11:28:51', '2023-08-20 13:12:35'),
+(30, '2023-08-20 06:45:27', '06:45:27', 10000, 65000, 'open', 1, '2023-08-20 11:45:41', '2023-08-20 13:12:45');
 
 -- --------------------------------------------------------
 
@@ -133,10 +142,11 @@ INSERT INTO `order_detail` (`id_order`, `id_product_type`, `qty`, `created_at`, 
 (23, 2, 1, '2023-07-24 15:03:38', '2023-07-24 15:03:38'),
 (23, 3, 1, '2023-07-24 15:03:38', '2023-07-24 15:03:38'),
 (24, 1, 1, '2023-07-24 15:13:45', '2023-07-24 15:13:45'),
-(25, 1, 1, '2023-07-24 22:20:14', '2023-07-24 22:20:14'),
-(25, 10, 1, '2023-07-24 22:20:15', '2023-07-24 22:20:15'),
 (27, 5, 1, '2023-07-24 22:49:19', '2023-07-24 22:49:19'),
-(27, 8, 1, '2023-07-24 22:49:20', '2023-07-24 22:49:20');
+(27, 8, 1, '2023-07-24 22:49:20', '2023-07-24 22:49:20'),
+(28, 2, 2, '2023-08-20 00:47:23', '2023-08-20 00:47:23'),
+(29, 11, 1, '2023-08-20 11:28:51', '2023-08-20 11:28:51'),
+(30, 8, 1, '2023-08-20 11:45:42', '2023-08-20 11:45:42');
 
 -- --------------------------------------------------------
 
@@ -160,10 +170,18 @@ CREATE TABLE `payment` (
   `id` bigint UNSIGNED NOT NULL,
   `payment_date` date NOT NULL,
   `method` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receipt` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_order` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `payment`
+--
+
+INSERT INTO `payment` (`id`, `payment_date`, `method`, `receipt`, `id_order`, `created_at`, `updated_at`) VALUES
+(1, '2023-08-20', 'tf', 'tf.jpg', 27, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -206,12 +224,12 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `price`, `stock`, `desc`, `id_category`, `created_at`, `updated_at`) VALUES
-(1, 'Vista Tote-Slingbag', 145000, 47, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.', 1, '2023-07-21 14:57:01', '2023-07-24 15:13:45'),
-(2, 'Jiro Tote-Slingbag', 75000, 38, '', 1, '2023-07-21 14:57:01', '2023-07-24 22:49:20'),
+(1, 'Vista Tote-Slingbag', 145000, 45, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.', 1, '2023-07-21 14:57:01', '2023-08-20 00:47:23'),
+(2, 'Jiro Tote-Slingbag', 75000, 37, '', 1, '2023-07-21 14:57:01', '2023-08-20 11:45:42'),
 (3, 'Wacko Tote-Slingbag', 89500, 28, '', 1, '2023-07-21 15:00:42', NULL),
 (4, 'Nobu Tote-Slingbag', 95000, 35, '', 1, '2023-07-21 15:00:42', NULL),
 (5, 'Ziggy Tote-Backpack', 125000, 76, '', 2, '2023-07-21 15:03:46', '2023-07-24 22:45:21'),
-(6, 'Ursa Tote-Backpack', 143000, 41, '', 2, '2023-07-21 15:03:46', '2023-07-24 22:20:15'),
+(6, 'Ursa Tote-Backpack', 143000, 40, '', 2, '2023-07-21 15:03:46', '2023-08-20 11:28:52'),
 (7, 'Sunday Slingbag', 85000, 60, '', 3, '2023-07-21 15:06:16', NULL),
 (8, 'Saturday Slingbag', 95000, 37, '', 3, '2023-07-21 15:06:16', NULL),
 (9, 'Otter Slingbag', 89500, 54, '', 3, '2023-07-21 15:07:55', NULL),
@@ -296,14 +314,14 @@ CREATE TABLE `product_type` (
 
 INSERT INTO `product_type` (`id`, `type`, `picture`, `stock`, `id_product`, `created_at`, `updated_at`) VALUES
 (1, 'Black', '/images/product/vistablack.webp', 18, 1, NULL, '2023-07-24 22:20:15'),
-(2, 'Brown', '/images/product/vistabrown.webp', 19, 1, NULL, '2023-07-24 15:03:38'),
+(2, 'Brown', '/images/product/vistabrown.webp', 17, 1, NULL, '2023-08-20 00:47:23'),
 (3, 'White', '/images/product/vistawhite.webp', 9, 1, NULL, '2023-07-24 15:03:39'),
 (4, 'White', '/images/product/vista.webp', 10, 3, NULL, NULL),
 (5, 'Brown', '/images/product/tote-slingbag.webp', 17, 3, NULL, '2023-07-24 22:49:19'),
-(8, 'Black', '/images/product/jiroblack.webp', 19, 2, NULL, '2023-07-24 22:49:20'),
+(8, 'Black', '/images/product/jiroblack.webp', 18, 2, NULL, '2023-08-20 11:45:42'),
 (9, 'Brown', '/images/product/jirobrown.webp', 20, 2, NULL, NULL),
 (10, 'Army', '/images/product/ursaarmy.webp', 12, 6, NULL, '2023-07-24 22:20:15'),
-(11, 'Mocca', '/images/product/tote-backpack.webp', 10, 6, NULL, NULL),
+(11, 'Mocca', '/images/product/tote-backpack.webp', 9, 6, NULL, '2023-08-20 11:28:51'),
 (12, 'Army', '/images/product/nobuarmy.webp', 14, 4, NULL, '2023-07-24 22:45:21'),
 (13, 'Brown', '/images/product/nobu.webp', 20, 4, NULL, NULL),
 (14, 'Army', '/images/product/armyziggy.webp', 37, 5, NULL, '2023-07-24 22:45:21'),
@@ -331,7 +349,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'testuser', 'testuser@gmail.com', NULL, '$2y$10$qM.Pc6scMM2qgQJqiTyiNOEOtADdUWG.5MHfBzB.odmF5KffQaA3W', NULL, '2023-07-18 06:41:02', '2023-07-18 06:41:02');
+(1, 'testuser', 'testuser@gmail.com', NULL, '$2y$10$qM.Pc6scMM2qgQJqiTyiNOEOtADdUWG.5MHfBzB.odmF5KffQaA3W', NULL, '2023-07-18 06:41:02', '2023-07-18 06:41:02'),
+(2, 'usera', 'user@user.com', NULL, '$2y$10$rlKrXZdrmXIp5FYlYGshsOLgfpa4Oq1DA6XxpAGucHAEbeIUTourq', NULL, '2023-08-20 07:46:02', '2023-08-20 07:46:02'),
+(3, 'userb', 'userb@user.com', NULL, '$2y$10$VKJx2uKhIiMI/f8ihHkGZOyFxsbEEQh1sHpEufgXR0Bd.APC7lpCm', NULL, '2023-08-20 07:47:48', '2023-08-20 07:47:48');
 
 -- --------------------------------------------------------
 
@@ -356,6 +376,35 @@ CREATE TABLE `user_detail` (
 
 INSERT INTO `user_detail` (`id`, `name`, `address`, `phone`, `status`, `id_user`, `created_at`, `updated_at`) VALUES
 (1, 'Stephanie Chan', 'Jl. Anggur No.8 RT 2/ RW 1 Kel.Aur Kuning, Kec.Aur Birugo Tigo Baleh, Kota Bukittinggi, Provinsi Sumatera Barat', '085555895555', 'utama', 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `voucher`
+--
+
+CREATE TABLE `voucher` (
+  `id` int NOT NULL,
+  `voucher_code` varchar(250) NOT NULL,
+  `date` date NOT NULL,
+  `discount` int NOT NULL,
+  `status` varchar(250) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data untuk tabel `voucher`
+--
+
+INSERT INTO `voucher` (`id`, `voucher_code`, `date`, `discount`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'GAJIAN', '2023-08-20', 10000, 'active', '2023-08-20 17:30:43', '2023-08-20 18:36:42'),
+(2, 'AKHIRBULAN', '2023-08-20', 10000, 'inactive', '2023-08-20 17:30:43', '2023-08-20 18:45:26'),
+(3, 'GAJIAN1', '2023-08-20', 10000, 'active', '2023-08-20 20:23:20', '2023-08-20 20:23:20'),
+(4, 'GAJIAN08', '2023-08-20', 10000, 'active', '2023-08-20 20:23:20', '2023-08-20 20:23:20'),
+(5, 'MERDEKA', '2023-08-20', 10000, 'active', '2023-08-20 20:23:20', '2023-08-20 20:23:20'),
+(6, 'TUJUHBELAS', '2023-08-20', 10000, 'active', '2023-08-20 20:23:20', '2023-08-20 20:23:20'),
+(7, 'AGUSTUSAN', '2023-08-20', 10000, 'active', '2023-08-20 20:23:20', '2023-08-20 20:23:20');
 
 --
 -- Indexes for dumped tables
@@ -458,6 +507,12 @@ ALTER TABLE `user_detail`
   ADD KEY `user-user-detail` (`id_user`);
 
 --
+-- Indeks untuk tabel `voucher`
+--
+ALTER TABLE `voucher`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
@@ -465,7 +520,7 @@ ALTER TABLE `user_detail`
 -- AUTO_INCREMENT untuk tabel `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -483,13 +538,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -525,13 +580,19 @@ ALTER TABLE `product_type`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_detail`
 --
 ALTER TABLE `user_detail`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `voucher`
+--
+ALTER TABLE `voucher`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
