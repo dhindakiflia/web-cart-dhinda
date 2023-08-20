@@ -124,16 +124,17 @@
             <div class="container" style="padding: 30px; margin-top:30px;">
               <div class="content is-medium">
                 <div class="media-content">
-                  <p class="title is-4 has-text-centered">Register</p>
-                  <p class="subtitle is-6 has-text-centered">Please register to access all features.</p><hr>
+                  <p class="title is-4 has-text-centered">User Detail</p>
+                  <p class="subtitle is-6 has-text-centered">Please fill in your details.</p><hr>
                 </div>
               </div>
-              <form action="{{ route('register_process') }}" method="post">
+              <form action="{{ route('user_detail_process') }}" method="post">
                 @csrf
+                <input type="text" name="id_user" value="{{ Auth::user()->id }}" hidden>
                 <div class="field">
-                  <label class="label">Username</label>
+                  <label class="label">Name</label>
                   <div class="control has-icons-left has-icons-right">
-                    <input class="input" type="text" id="username" name="username" placeholder="Username" autofocus required>
+                    <input class="input" type="text" id="name" name="name" placeholder="name" autofocus required>
                     <span class="icon is-small is-left">
                       <i class="fas fa-user"></i>
                     </span>
@@ -145,34 +146,19 @@
                   <p class="help is-danger">This email is invalid</p>
                   @enderror --}}
                 </div>
+                <label class="label">Address</label>
+                <textarea class="textarea" name="address" placeholder="e.g. Hello world"></textarea>
 
                 <div class="field">
-                  <label class="label">Email</label>
+                  <label class="label">Phone</label>
                   <div class="control has-icons-left has-icons-right">
-                    <input class="input" type="text" id="email" name="email" placeholder="Email" autofocus required>
+                    <input class="input" type="text" id="phone" name="phone" placeholder="phone">
                     <span class="icon is-small is-left">
-                      <i class="fas fa-envelope"></i>
-                    </span>
-                    {{-- <span class="icon is-small is-right">
-                      <i class="fas fa-exclamation-triangle"></i>
-                    </span> --}}
-                  </div>
-                  @error('email')
-                  <p class="help is-danger">This email is invalid</p>
-                  @enderror
-                </div>
-                
-                <div class="field">
-                  <label class="label">Password</label>
-                  <div class="control has-icons-left has-icons-right">
-                    <input class="input" type="password" id="password" name="password" placeholder="Password" required>
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-lock"></i>
+                      <i class="fas fa-phone"></i>
                     </span>
                   </div>
-                  <br>
                 </div>
-                
+                <input type="text" name="status" value="utama" hidden>
                 <div class="field is-horizontal">
                   <div class="field-body">
                     <div class="field">

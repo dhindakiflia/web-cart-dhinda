@@ -68,7 +68,7 @@
                     </a>
             
                     <div class="navbar-dropdown is-right">
-                    <a class="navbar-item">
+                    <a class="navbar-item" href="{{ route('user_profile') }}">
                         Profil
                     </a>
                     <a class="navbar-item">

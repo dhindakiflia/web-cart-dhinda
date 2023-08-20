@@ -15,7 +15,8 @@ class UserDetail extends Model
         'name',
         'address',
         'phone',
-        'status'
+        'status',
+        'id_user'
     ];
 
     public function user() : BelongsTo

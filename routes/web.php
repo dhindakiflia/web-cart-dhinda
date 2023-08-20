@@ -28,6 +28,9 @@ Route::get('/', function () {
 Route::controller(RegisterController::class)->group(function() {
     Route::get('register', 'register')->name('register');
     Route::post('register_process', 'store')->name('register_process');
+    Route::get('user_detail_form', 'user_detail_form')->name('user_detail_form');
+    Route::post('user_detail_process', 'user_detail_process')->name('user_detail_process');
+    Route::get('user_profile', 'user_profile')->name('user_profile');
 });
 
 Route::controller(LoginController::class)->group(function() {
