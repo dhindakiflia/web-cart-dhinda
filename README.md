@@ -7,11 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-Account
-username = testuser
-password = user123
+##Account & Database
+<p>username = testuser</p>
+<p>password = user123</p>
 
-Updated Database = app/database/web_cart_dhinda.sql
+<p>Updated Database = app/database/web_cart_dhinda.sql</p>
 
 ## License
 
