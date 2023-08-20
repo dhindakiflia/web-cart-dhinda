@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ Route::get('/', function () {
 
 Route::controller(RegisterController::class)->group(function() {
     Route::get('register', 'register')->name('register');
-    Route::post('store', 'store')->name('store');
+    Route::post('register_process', 'store')->name('register_process');
 });
 
 Route::controller(LoginController::class)->group(function() {
@@ -52,6 +53,7 @@ Route::middleware('user')->group(function () {
     Route::group(['prefix'=>'order','as'=>'order.'], function(){
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::post('/store', [OrderController::class, 'store'])->name('store');
+        // Route::post('/voucher', [OrderController::class, 'voucher'])->name('voucher');
     });
     
     Route::group(['prefix'=>'history','as'=>'history.'], function(){
@@ -59,6 +61,7 @@ Route::middleware('user')->group(function () {
         Route::get('/closed', [HistoryController::class, 'closed'])->name('closed');
         Route::get('/open', [HistoryController::class, 'open'])->name('open');
     });
+    
     
     
 });

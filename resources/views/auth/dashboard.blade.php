@@ -86,6 +86,13 @@
                             </a>
                             </div>
                         </div>
+                        <div class="navbar-item">
+                          <div class="buttons">
+                            <a class="button is-black is-inverted" href="{{ route('register') }}">
+                                Register
+                            </a>
+                          </div>
+                        </div>
                     @else
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link">
@@ -232,7 +239,7 @@
       <section class="section" style="background-color: black; color:white">
         <div class="container">
             <div class="content is-large has-text-centered is-spaced">
-                <p>Dapatkan <b>Discount IDR 10K</b> untuk pembelian produk diatas 50K</p>
+                <p>Dapatkan <b>Discount IDR 10K</b> untuk pembelian produk diatas <b>IDR 999,999</b></p>
                 <a class="button is-white is-large is-outlined" href="{{ route('product.index') }}">SHOP NOW</a>
               </div>
           </div>

@@ -18,21 +18,27 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:250',
+            'username' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users',
-            'password' => 'required|confirmed|min:8',
+            'password' => 'required',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        $data = new User;
+        $data->username = $request->username;
+        $data->email = $request->email;
+        $data->password = Hash::make($request->password);
+        $masuk = $data->save();
 
-        $credentials = $request->only('email', 'password');
-        Auth::attempt($credentials);
-        $request->session()->regenerate();
-        return redirect()->route('dashboard')->with('message', 'Berhasil register dan Login!');
+        if ($masuk) {
+            $credentials = $request->only('username', 'password');
+            Auth::attempt($credentials);
+            $request->session()->regenerate();
+            // return redirect()->route('dashboard')->with('message', 'Berhasil register dan Login!');
+            return redirect()->intended('product');
+        } 
+        
+
+        
     }
 
     

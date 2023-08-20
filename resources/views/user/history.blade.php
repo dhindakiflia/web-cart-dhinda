@@ -37,6 +37,21 @@
             </ul>
           </div>
 
+          <div class="container box">
+            <table class="table is-fullwidth">
+              <tbody>
+                <tr>
+                  <td colspan="3" class="subtitle"><strong>Total</strong></td>
+                  <td id="total" class="title has-text-right" >Rp{{ number_format($total, 0, ".", ".") }}</td>
+                </tr>
+                <tr>
+                  @if ($total >= 1000000)
+                      <td><p>VOUCHER CODE : <b>{{ $voucher_code }}</b></p></td>
+                  @endif
+                </tr>
+              </tbody>
+            </table>
+          </div>
             <?php 
             $keys = array_keys($details);
             for($i = 0; $i < count($details); $i++) {
@@ -60,56 +75,70 @@
                 foreach($details[$keys[$i]] as $key => $value) {
                     // echo $key . " : " . $value . "<br>";
                 ?>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="tile is-ancestor">
-                                                <div class="tile is-vertical is-12">
-                                                  <div class="tile">
-                                                    <div class="tile is-parent is-vertical is-3">
-                                                        @if ($value->status=='closed')
-                                                        <span class="tag is-danger">Closed</span> 
-                                                        @else
-                                                        <span class="tag is-link">Open</span> 
-                                                        @endif
-                                                    
-                                                      <article class="tile is-child">
-                                                        {{-- gambar main produk  --}}
-                                                        <figure class="image is-96x96">
-                                                            <img src="{{ asset($value->picture_name) }}">
-                                                        </figure>
-                                                      </article>
-                                                    </div>
-                                                    
-                                                    <div class="tile is-parent">
-                                                      <div class="tile is-child">
-                                                        <p class="title is-4">{{ $value->product_name }}</p>
-                                                        <p class="subtitle is-6">Color: <strong>{{ $value->type }}</strong></p>
-                                                      </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><p class="subtitle" id="price">{{ $value->price }}</p></td>
-                                        <td>
-                                            <p class="subtitle" style="border-radius: 0px" id="product_qty" name="product_qty[]">{{ $value->qty }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="netprice subtitle" id="netprice">{{ $value->qty * $value->price }}</p>
-                                        </td>
-                                    </tr>
-                                </tbody>  
-
+                  <tbody>
+                      <tr>
+                          <td>
+                              <div class="tile is-ancestor">
+                                  <div class="tile is-vertical is-12">
+                                    <div class="tile">
+                                      <div class="tile is-parent is-vertical is-3">
+                                          @if ($value->status=='closed')
+                                          <span class="tag is-danger">Closed</span> 
+                                          @else
+                                          <span class="tag is-link">Open</span> 
+                                          @endif
+                                      
+                                        <article class="tile is-child">
+                                          {{-- gambar main produk  --}}
+                                          <figure class="image is-96x96">
+                                              <img src="{{ asset($value->picture_name) }}">
+                                          </figure>
+                                        </article>
+                                      </div>
+                                      
+                                      <div class="tile is-parent">
+                                        <div class="tile is-child">
+                                          <p class="title is-4">{{ $value->product_name }}</p>
+                                          <p class="subtitle is-6">Color: <strong>{{ $value->type }}</strong></p>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </td>
+                          <td><p class="subtitle" id="price">{{ $value->price }}</p></td>
+                          <td>
+                              <p class="subtitle" style="border-radius: 0px" id="product_qty" name="product_qty[]">{{ $value->qty }}</p>
+                          </td>
+                          <td>
+                              <p class="netprice subtitle" id="netprice">{{ $value->qty * $value->price }}</p>
+                          </td>
+                      </tr>
+                  </tbody>  
+                  
                 <?php 
                 }?>
-                {{-- <tr>
+                <tr>
                     <td colspan="3" class="subtitle"><strong>Discount</strong></td>
                     <td id="total" class="subtitle">{{ $value->discount }}</td>
                 </tr>
                 <tr>
                     <td colspan="3" class="subtitle"><strong>Total</strong></td>
                     <td id="total" class="subtitle" >{{ $value->total }}</td>
-                </tr> --}}
+                </tr>
+                <tr>
+                  <td colspan="3" class="subtitle"><strong></strong></td>
+                  @if ($value->status=='closed')
+                  
+                  @else
+                  <td colspan="3"  id="total" class="subtitle" >
+                    <form action="{{ route('history.index') }}" method="get">
+                    <input type="text" value="{{ $value->id }}" name="id_order" hidden>
+                    <button class="button is-black" type="submit">Check</button>
+                    </form>
+                  </td>
+                  @endif
+                  
+                </tr>
             
         </table>
     </div>    
@@ -119,7 +148,8 @@
 
 </div>
             <?php        
-            }?>
+            }
+            ?>
         
         {{-- @php
             

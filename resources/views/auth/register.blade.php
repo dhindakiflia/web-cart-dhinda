@@ -56,8 +56,8 @@
             @guest
                 <div class="navbar-item"> 
                     <div class="buttons">
-                    <a class="button is-black is-outlined" href="{{ route('register') }}">
-                        Register
+                    <a class="button is-black is-outlined" href="{{ route('login') }}">
+                        Log in
                     </a>
                     </div>
                 </div>
@@ -124,12 +124,12 @@
             <div class="container" style="padding: 30px; margin-top:30px;">
               <div class="content is-medium">
                 <div class="media-content">
-                  <p class="title is-4 has-text-centered">Log In Here!</p>
-                  <p class="subtitle is-6 has-text-centered">Please login to your account by username and password.</p><hr>
+                  <p class="title is-4 has-text-centered">Register</p>
+                  <p class="subtitle is-6 has-text-centered">Please register to access all features.</p><hr>
                 </div>
               </div>
-                <form action="{{ route('login_process') }}" method="post">
-                  @csrf
+              <form action="{{ route('register_process') }}" method="post">
+                @csrf
                 <div class="field">
                   <label class="label">Username</label>
                   <div class="control has-icons-left has-icons-right">
@@ -144,6 +144,22 @@
                   {{-- @error('email')
                   <p class="help is-danger">This email is invalid</p>
                   @enderror --}}
+                </div>
+
+                <div class="field">
+                  <label class="label">Email</label>
+                  <div class="control has-icons-left has-icons-right">
+                    <input class="input" type="text" id="email" name="email" placeholder="Email" autofocus required>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                    {{-- <span class="icon is-small is-right">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </span> --}}
+                  </div>
+                  @error('email')
+                  <p class="help is-danger">This email is invalid</p>
+                  @enderror
                 </div>
                 
                 <div class="field">
@@ -161,7 +177,7 @@
                   <div class="field-body">
                     <div class="field">
                       <div class="control">
-                        <button type="submit" class="button is-black">Masuk</button>
+                        <button type="submit" class="button is-black">Daftar</button>
                       </div>
                     </div>
                 </div>

@@ -5,6 +5,18 @@
 @endsection
 
 @section('content')
+<section class="section">
+<div class="container box">
+    <div class="content is-normal">
+        <h2>Redeem Voucher</h2>
+    </div>
+    <form action="{{ route('order.index') }}" method="get">
+        @csrf
+        <input class="input is-link" type="text" placeholder="Voucher Code" name="voucher" style="max-width: 90%">
+        <button type="submit" class="button is-link">SUBMIT</button>
+    </form>
+</div>
+
 <form action="{{ route('order.store') }}" method="post">
     @csrf
     <input type="text" name="order_date" value="{{ date("Y-m-d h:i:s") }}" hidden>
@@ -12,7 +24,8 @@
     <input type="number" name="total" value="{{ $harus_bayar }}" hidden>
     <input type="text" name="id_user" value="{{ Auth::user()->id }}" hidden>
     <input type="number" name="result" value="{{ $result }}" hidden>
-    <section class="section">
+    <input type="number" name="discount" value="{{ $discount }}" hidden>
+    
         <div class="container box">
             <div class="content is-normal">
                 <h2>Alamat Pengiriman
@@ -93,7 +106,16 @@
                             <tr>
                                 <td colspan="3" class="subtitle"><strong style="margin-right: 20px">Discount</strong>
                                 
-                                @if ($result > 50000)
+                                
+                                @if ($discount == 0)
+                                <span class="" style="margin-right: 10px"></span></td>
+                                <td id="total" class="subtitle" >0</td>
+                                @elseif($discount > 0 )
+                                <span class="tag is-info is-large" style="margin-right: 10px">Diskon 10K</span></td>
+                                <td id="total" class="subtitle" >{{ $discount }}</td>
+                                @endif
+                                
+                                {{-- @if ($result > 50000)
                                 <span class="tag is-info is-large" style="margin-right: 10px">Diskon 10K</span></td>
                                 <td id="total" class="subtitle" >10000</td>
 
@@ -109,7 +131,7 @@
                                 @else
                                 <span class="tag is-light is-large">No Voucher</span></td>
                                 <td id="total" class="subtitle" >0</td>
-                                @endif
+                                @endif --}}
                             </tr>
                             <tr>
                                 <td colspan="3" class="subtitle"><strong>Total</strong></td>

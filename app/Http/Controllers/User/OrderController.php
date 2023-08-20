@@ -10,13 +10,14 @@ use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\User;
 use App\Models\UserDetail;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $user = Auth::user();
         $detail_user = UserDetail::where('user_detail.id_user', $user->id)->first();
         $carts = Cart::select(
@@ -46,19 +47,36 @@ class OrderController extends Controller
         }
 
         // potongan
-        if ($result > 50000) {
-            $discount = 10000;
-        }else if($result % 100000 == 0){
-            $discount = 5000; 
-        }elseif($result > 50000 && $result % 100000 == 0){
-            $discount = 15000;
-        }else{
-            $discount = 0;
+        // if ($result > 50000) {
+        //     $discount = 10000;
+        // }else if($result % 100000 == 0){
+        //     $discount = 5000; 
+        // }elseif($result > 50000 && $result % 100000 == 0){
+        //     $discount = 15000;
+        // }else{
+        //     $discount = 0;
+        // }
+
+        //potongan
+        $discount = 0;
+        $voucher_req = $request->voucher;
+        $vouchers = Voucher::where('status', 'active')->get();
+        
+        if ($voucher_req != null) {
+            foreach ($vouchers as $item) {
+                if ($item->voucher_code == $voucher_req) {
+                    $data = Voucher::find($item->id);
+                    $data->status = 'inactive';
+                    $data->save();
+                    $discount = $item->discount;
+                }
+            }
         }
+        
         $harus_bayar = $result - $discount;
 
         // dd($harus_bayar);
-        return view('user.order', compact('detail_user', 'carts', 'result', 'harus_bayar'));
+        return view('user.order', compact('detail_user', 'carts', 'result', 'harus_bayar', 'discount'));
     }
 
     public function store(Request $request)
@@ -75,21 +93,21 @@ class OrderController extends Controller
         $cart = $request->cart_id;
         $result = $request->result;
         // potongan
-        if ($result > 50000) {
-            $discount = 10000;
-        }else if($result % 100000 == 0){
-            $discount = 5000; 
-        }elseif($result > 50000 && $result % 100000 == 0){
-            $discount = 15000;
-        }else{
-            $discount = 0;
-        }
+        // if ($result > 50000) {
+        //     $discount = 10000;
+        // }else if($result % 100000 == 0){
+        //     $discount = 5000; 
+        // }elseif($result > 50000 && $result % 100000 == 0){
+        //     $discount = 15000;
+        // }else{
+        //     $discount = 0;
+        // }
         
         //insert ke tabel order
         $data = new Order();
         $data->order_date = $request->order_date;
         $data->order_time = $request->order_time;
-        $data->discount = $discount;
+        $data->discount = $request->discount;
         $data->total = $request->total;
         $data->status = 'open';
         $data->id_user = $request->id_user;
